@@ -19,7 +19,7 @@ class MainMenu(QWidget):
 
     def init_ui(self):
         self.setWindowTitle("Space Shooter")
-        self.setFixedSize(800, 600)
+        self.setFixedSize(900, 700)
 
         self.setStyleSheet("""
             QWidget{

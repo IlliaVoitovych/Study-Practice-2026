@@ -29,7 +29,7 @@ class Player(GameObject):
         painter.setPen(QPen(QColor("white"), 2))
         painter.drawRoundedRect(0, 0, self.WIDTH, self.HEIGHT, 8, 8)
 
-    def update(self, keys=None):
+    def tick(self, keys=None):
 
         if keys is not None:
 

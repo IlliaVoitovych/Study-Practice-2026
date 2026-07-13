@@ -21,7 +21,7 @@ class Bullet(GameObject):
         painter.setPen(QPen(QColor("white"), 1))
         painter.drawRect(0, 0, self.WIDTH, self.HEIGHT)
 
-    def update(self):
+    def tick(self):
         self.setY(self.y() - self.SPEED)
 
         if self.y() + self.HEIGHT < 0:

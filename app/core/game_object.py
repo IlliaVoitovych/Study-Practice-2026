@@ -1,10 +1,7 @@
-from abc import ABC, abstractmethod
-
-from PyQt6.QtCore import QRectF
 from PyQt6.QtWidgets import QGraphicsItem
 
 
-class GameObject(QGraphicsItem, ABC):
+class GameObject(QGraphicsItem):
     """
     Базовий клас для всіх ігрових об'єктів.
     """
@@ -14,26 +11,14 @@ class GameObject(QGraphicsItem, ABC):
 
         self.active = True
 
-    @abstractmethod
-    def boundingRect(self) -> QRectF:
-        pass
-
-    @abstractmethod
-    def paint(self, painter, option, widget=None):
-        pass
-
-    @abstractmethod
-    def update(self):
-        """
-        Оновлення oб'єкта кожен кадр.
-        """
-        pass
-
     def destroy(self):
-        """
-        Позначає oб'єкт як неактивний.
-        """
         self.active = False
 
     def is_active(self):
         return self.active
+
+    def tick(self, *args, **kwargs):
+        """
+        Перевизначається у похідних класах.
+        """
+        pass

@@ -29,7 +29,7 @@ class Enemy(GameObject):
 
         painter.drawEllipse(0, 0, self.SIZE, self.SIZE)
 
-    def update(self):
+    def tick(self):
         self.setY(self.y() + self.SPEED)
 
         if self.y() > 650:

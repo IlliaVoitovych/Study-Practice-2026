@@ -5,6 +5,7 @@ from PyQt6.QtWidgets import (
 )
 
 from entities.player import Player
+from entities.bullet import Bullet
 
 
 class GameScene(QGraphicsScene):
@@ -29,17 +30,51 @@ class GameScene(QGraphicsScene):
 
         self.addItem(self.player)
 
+        self.bullets = []
+
         self.info = QGraphicsTextItem()
         self.info.setDefaultTextColor(QColor("white"))
         self.info.setPos(10, 10)
 
         self.addItem(self.info)
 
+    def shoot(self):
+
+        bullet = Bullet()
+
+        bullet.setPos(
+            self.player.x() + self.player.WIDTH / 2 - bullet.WIDTH / 2,
+            self.player.y() - bullet.HEIGHT
+        )
+
+        self.addItem(bullet)
+
+        self.bullets.append(bullet)
+
+        self.player.reset_cooldown()
+
+    def update_bullets(self):
+
+        for bullet in self.bullets[:]:
+
+            bullet.update()
+
+            if not bullet.active:
+                self.removeItem(bullet)
+                self.bullets.remove(bullet)
+
     def update_scene(self, keys):
+
         self.frame += 1
 
         self.player.update(keys)
 
+        if keys["shoot"] and self.player.can_shoot():
+            self.shoot()
+
+        self.update_bullets()
+
         self.info.setPlainText(
-            f"Frame: {self.frame}"
+            f"Frame: {self.frame}\n"
+            f"Bullets: {len(self.bullets)}"
         )

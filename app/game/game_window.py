@@ -74,19 +74,15 @@ class GameWindow(QWidget):
 
     def game_loop(self):
 
-        if self.keys[Qt.Key.Key_Left] or self.keys[Qt.Key.Key_A]:
-            self.scene.player.move_left()
+        keys = {
+            "left": self.keys[Qt.Key.Key_Left] or self.keys[Qt.Key.Key_A],
+            "right": self.keys[Qt.Key.Key_Right] or self.keys[Qt.Key.Key_D],
+            "up": self.keys[Qt.Key.Key_Up] or self.keys[Qt.Key.Key_W],
+            "down": self.keys[Qt.Key.Key_Down] or self.keys[Qt.Key.Key_S],
+            "shoot": self.keys[Qt.Key.Key_Space],
+        }
 
-        if self.keys[Qt.Key.Key_Right] or self.keys[Qt.Key.Key_D]:
-            self.scene.player.move_right()
-
-        if self.keys[Qt.Key.Key_Up] or self.keys[Qt.Key.Key_W]:
-            self.scene.player.move_up()
-
-        if self.keys[Qt.Key.Key_Down] or self.keys[Qt.Key.Key_S]:
-            self.scene.player.move_down()
-
-        self.scene.update_scene()
+        self.scene.update_scene(keys)
 
     def keyPressEvent(self, event):
         key = event.key()

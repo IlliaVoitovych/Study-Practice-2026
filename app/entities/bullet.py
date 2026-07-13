@@ -5,7 +5,7 @@ from PyQt6.QtWidgets import QGraphicsItem
 
 class Bullet(QGraphicsItem):
 
-    WIDTH = 6
+    WIDTH = 8
     HEIGHT = 20
     SPEED = 10
 

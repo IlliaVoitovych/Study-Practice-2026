@@ -67,7 +67,7 @@ class GameScene(QGraphicsScene):
 
             bullet.update()
 
-            if not bullet.active:
+            if not bullet.is_active():
                 self.removeItem(bullet)
                 self.bullets.remove(bullet)
 
@@ -97,7 +97,7 @@ class GameScene(QGraphicsScene):
             self.spawn_enemy()
         for enemy in self.enemies[:]:
             enemy.update()
-            if not enemy.active:
+            if not enemy.is_active():
                 self.removeItem(enemy)
                 self.enemies.remove(enemy)
     

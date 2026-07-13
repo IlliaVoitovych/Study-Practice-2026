@@ -2,10 +2,11 @@ import random
 
 from PyQt6.QtCore import QRectF
 from PyQt6.QtGui import QColor, QBrush, QPen
-from PyQt6.QtWidgets import QGraphicsItem
+
+from core.game_object import GameObject
 
 
-class Enemy(QGraphicsItem):
+class Enemy(GameObject):
 
     SIZE = 40
     SPEED = 3
@@ -14,7 +15,6 @@ class Enemy(QGraphicsItem):
         super().__init__()
 
         self.scene_width = scene_width
-        self.active = True
 
         x = random.randint(0, scene_width - self.SIZE)
 
@@ -30,8 +30,7 @@ class Enemy(QGraphicsItem):
         painter.drawEllipse(0, 0, self.SIZE, self.SIZE)
 
     def update(self):
-
         self.setY(self.y() + self.SPEED)
 
         if self.y() > 650:
-            self.active = False
+            self.destroy()

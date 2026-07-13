@@ -1,9 +1,10 @@
 from PyQt6.QtCore import QRectF
 from PyQt6.QtGui import QColor, QBrush, QPen
-from PyQt6.QtWidgets import QGraphicsItem
+
+from core.game_object import GameObject
 
 
-class Player(QGraphicsItem):
+class Player(GameObject):
 
     WIDTH = 50
     HEIGHT = 60
@@ -26,28 +27,23 @@ class Player(QGraphicsItem):
     def paint(self, painter, option, widget=None):
         painter.setBrush(QBrush(QColor(0, 220, 255)))
         painter.setPen(QPen(QColor("white"), 2))
-        painter.drawRoundedRect(
-            0,
-            0,
-            self.WIDTH,
-            self.HEIGHT,
-            8,
-            8
-        )
+        painter.drawRoundedRect(0, 0, self.WIDTH, self.HEIGHT, 8, 8)
 
-    def update(self, keys):
+    def update(self, keys=None):
 
-        if keys["left"]:
-            self.move_left()
+        if keys is not None:
 
-        if keys["right"]:
-            self.move_right()
+            if keys["left"]:
+                self.move_left()
 
-        if keys["up"]:
-            self.move_up()
+            if keys["right"]:
+                self.move_right()
 
-        if keys["down"]:
-            self.move_down()
+            if keys["up"]:
+                self.move_up()
+
+            if keys["down"]:
+                self.move_down()
 
         if self.cooldown > 0:
             self.cooldown -= 1
@@ -62,12 +58,16 @@ class Player(QGraphicsItem):
         self.setX(max(0, self.x() - self.SPEED))
 
     def move_right(self):
-        self.setX(min(self.scene_width - self.WIDTH,
-                      self.x() + self.SPEED))
+        self.setX(
+            min(self.scene_width - self.WIDTH,
+                self.x() + self.SPEED)
+        )
 
     def move_up(self):
         self.setY(max(0, self.y() - self.SPEED))
 
     def move_down(self):
-        self.setY(min(self.scene_height - self.HEIGHT,
-                      self.y() + self.SPEED))
+        self.setY(
+            min(self.scene_height - self.HEIGHT,
+                self.y() + self.SPEED)
+        )

@@ -1,18 +1,17 @@
 from PyQt6.QtCore import QRectF
 from PyQt6.QtGui import QColor, QBrush, QPen
-from PyQt6.QtWidgets import QGraphicsItem
+
+from core.game_object import GameObject
 
 
-class Bullet(QGraphicsItem):
+class Bullet(GameObject):
 
-    WIDTH = 8
+    WIDTH = 6
     HEIGHT = 20
     SPEED = 10
 
     def __init__(self):
         super().__init__()
-
-        self.active = True
 
     def boundingRect(self):
         return QRectF(0, 0, self.WIDTH, self.HEIGHT)
@@ -26,4 +25,4 @@ class Bullet(QGraphicsItem):
         self.setY(self.y() - self.SPEED)
 
         if self.y() + self.HEIGHT < 0:
-            self.active = False
+            self.destroy()

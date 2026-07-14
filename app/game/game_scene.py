@@ -61,14 +61,16 @@ class GameScene(QGraphicsScene):
                 f"GAME OVER\n\n"
                 f"Score : {self.manager.score}\n"
                 f"Record : {self.manager.record}\n"
-                f"Press R to Restart"
+                f"Press R to Restart\n"
+                f"Press Q to Quit\n"
             )
             if(self.manager.score == self.manager.record):
                 self.info.setPlainText(
                     f"GAME OVER\n\n"
                     f"Score : {self.manager.score}\n"
                     f"New Record!\n"
-                    f"Press R to Restart"
+                    f"Press R to Restart\n"
+                    f"Press Q to Quit\n"
                 )
             return
         

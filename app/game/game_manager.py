@@ -13,8 +13,12 @@ class GameManager:
         self.score = 0
         self.enemy_spawn_delay = 60
         self.enemy_spawn_timer = 0
-        self.bonus_spawn_delay = 540
+        self.bonus_spawn_delay = 480
         self.bonus_spawn_timer = 0
+        self.double_score = False
+        self.double_score_timer = 0
+        self.rapid_fire_timer = 0
+        self.shield_timer = 0
         self.player = Player(scene.WIDTH, scene.HEIGHT)
         self.player.setPos(
             scene.WIDTH / 2 - self.player.WIDTH / 2,
@@ -40,6 +44,7 @@ class GameManager:
         self.spawn_logic()
         self.check_collisions()
         self.check_bonus_collision()
+        self.update_bonus_effects()
         # self.update_difficulty()
 
     def shoot(self):
@@ -83,11 +88,27 @@ class GameManager:
                 if bullet.collidesWithItem(enemy):
                     bullet.destroy()
                     enemy.destroy()
-                    self.score += 10
+                    points = 10
+                    if self.double_score:
+                        points *= 2
+                    self.score += points
                     break
 
     def check_bonus_collision(self):
-        for bonus in self.entities.bonuses:
+        for bonus in self.entities.bonuses[:]:
             if self.player.collidesWithItem(bonus):
+                bonus.effect.apply(self)
+                self.last_bonus = bonus.effect.name
                 bonus.destroy()
-                self.score += 50
+
+    def update_bonus_effects(self):
+        if self.rapid_fire_timer > 0:
+            self.rapid_fire_timer -= 1
+            if self.rapid_fire_timer == 0:
+                self.player.SHOOT_COOLDOWN = 15
+        if self.double_score_timer > 0:
+            self.double_score_timer -= 1
+            if self.double_score_timer == 0:
+                self.double_score = False
+        if self.shield_timer > 0:
+            self.shield_timer -= 1

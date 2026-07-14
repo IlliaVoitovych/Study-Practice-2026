@@ -36,8 +36,10 @@ class GameScene(QGraphicsScene):
         self.frame += 1
         self.manager.tick(keys)
         self.info.setPlainText(
-            f"Score : {self.manager.score}\n"
-            f"Enemies : {len(self.manager.entities.enemies)}\n"
-            f"Bullets : {len(self.manager.entities.bullets)}\n"
-            f"Bonuses : {len(self.manager.entities.bonuses)}"
-        )
+        f"Score : {self.manager.score}\n"
+        f"Enemies : {len(self.manager.entities.enemies)}\n"
+        f"Bullets : {len(self.manager.entities.bullets)}\n"
+        f"Rapid Fire : {'ON' if self.manager.rapid_fire_timer > 0 else 'OFF'}\n"
+        f"Double Score : {'ON' if self.manager.double_score else 'OFF'}\n"
+        f"Shield : {'ON' if self.manager.shield_timer > 0 else 'OFF'}"
+    )

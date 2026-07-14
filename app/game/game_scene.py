@@ -38,5 +38,6 @@ class GameScene(QGraphicsScene):
         self.info.setPlainText(
             f"Score : {self.manager.score}\n"
             f"Enemies : {len(self.manager.entities.enemies)}\n"
-            f"Bullets : {len(self.manager.entities.bullets)}"
+            f"Bullets : {len(self.manager.entities.bullets)}\n"
+            f"Bonuses : {len(self.manager.entities.bonuses)}"
         )

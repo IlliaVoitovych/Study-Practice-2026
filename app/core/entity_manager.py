@@ -1,7 +1,7 @@
 from entities.player import Player
 from entities.enemy import Enemy
 from entities.bullet import Bullet
-# from entities.bonus import Bonus
+from entities.bonus import Bonus
 
 
 class EntityManager:
@@ -28,8 +28,8 @@ class EntityManager:
         elif isinstance(entity, Bullet):
             self.bullets.append(entity)
 
-        # elif isinstance(entity, Bonus):
-        #    self.bonuses.append(entity)
+        elif isinstance(entity, Bonus):
+            self.bonuses.append(entity)
 
         else:
             raise TypeError(

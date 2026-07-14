@@ -2,6 +2,7 @@ from core.entity_manager import EntityManager
 from entities.player import Player
 from entities.enemy import Enemy
 from entities.bullet import Bullet
+from entities.bonus import Bonus
 
 
 class GameManager:
@@ -12,6 +13,8 @@ class GameManager:
         self.score = 0
         self.enemy_spawn_delay = 60
         self.enemy_spawn_timer = 0
+        self.bonus_spawn_delay = 540
+        self.bonus_spawn_timer = 0
         self.player = Player(scene.WIDTH, scene.HEIGHT)
         self.player.setPos(
             scene.WIDTH / 2 - self.player.WIDTH / 2,
@@ -21,9 +24,13 @@ class GameManager:
 
     def spawn_logic(self):
         self.enemy_spawn_timer += 1
+        self.bonus_spawn_timer += 1
         if self.enemy_spawn_timer >= self.enemy_spawn_delay:
             self.enemy_spawn_timer = 0
             self.spawn_enemy()
+        if self.bonus_spawn_timer >= self.bonus_spawn_delay:
+            self.bonus_spawn_timer = 0
+            self.spawn_bonus()
 
     def tick(self, keys):
         self.player.tick(keys)
@@ -32,6 +39,7 @@ class GameManager:
         self.entities.tick()
         self.spawn_logic()
         self.check_collisions()
+        self.check_bonus_collision()
         # self.update_difficulty()
 
     def shoot(self):
@@ -54,6 +62,10 @@ class GameManager:
         enemy = Enemy(self.scene.WIDTH)
         self.entities.add_entity(enemy)
 
+    def spawn_bonus(self):
+        bonus = Bonus(self.scene.WIDTH)
+        self.entities.add_entity(bonus)
+
     def update_enemies(self):
         self.enemy_spawn_timer += 1
         if self.enemy_spawn_timer >= self.enemy_spawn_delay:
@@ -73,3 +85,9 @@ class GameManager:
                     enemy.destroy()
                     self.score += 10
                     break
+
+    def check_bonus_collision(self):
+        for bonus in self.entities.bonuses:
+            if self.player.collidesWithItem(bonus):
+                bonus.destroy()
+                self.score += 50

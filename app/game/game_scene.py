@@ -42,6 +42,7 @@ class GameScene(QGraphicsScene):
         self.manager.tick(keys)
         self.info.setPlainText(
         f"Score : {self.manager.score}\n"
+        f"Record : {self.manager.record}\n"
         f"Enemies : {len(self.manager.entities.enemies)}\n"
         f"Bullets : {len(self.manager.entities.bullets)}\n"
         f"Rapid Fire : {'ON' if self.manager.rapid_fire_timer > 0 else 'OFF'}\n"
@@ -52,8 +53,16 @@ class GameScene(QGraphicsScene):
             self.info.setPlainText(
                 f"GAME OVER\n\n"
                 f"Score : {self.manager.score}\n"
+                f"Record : {self.manager.record}\n"
                 f"Press R to Restart"
             )
+            if(self.manager.score == self.manager.record):
+                self.info.setPlainText(
+                    f"GAME OVER\n\n"
+                    f"Score : {self.manager.score}\n"
+                    f"New Record!\n"
+                    f"Press R to Restart"
+                )
             return
         
     def restart(self):

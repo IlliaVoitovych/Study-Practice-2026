@@ -4,6 +4,7 @@ from entities.player import Player
 from entities.enemy import Enemy
 from entities.bullet import Bullet
 from entities.bonus import Bonus
+from core.record_manager import RecordManager
 
 
 class GameManager:
@@ -12,6 +13,7 @@ class GameManager:
         self.scene = scene
         self.entities = EntityManager(scene)
         self.score = 0
+        self.record = RecordManager.load_record()
         self.enemy_spawn_delay = 60
         self.enemy_spawn_timer = 0
         self.bonus_spawn_delay = 480
@@ -144,4 +146,5 @@ class GameManager:
             
     def game_over(self):
         print("GAME OVER")
+        self.record = RecordManager.save_record(self.score)
         self.state = GameState.GAME_OVER

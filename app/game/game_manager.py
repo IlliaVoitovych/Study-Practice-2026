@@ -1,4 +1,5 @@
 from core.entity_manager import EntityManager
+from core.game_state import GameState
 from entities.player import Player
 from entities.enemy import Enemy
 from entities.bullet import Bullet
@@ -19,6 +20,9 @@ class GameManager:
         self.double_score_timer = 0
         self.rapid_fire_timer = 0
         self.shield_timer = 0
+        self.state = GameState.PLAYING
+        self.level = 1
+        self.frames = 0
         self.player = Player(scene.WIDTH, scene.HEIGHT)
         self.player.setPos(
             scene.WIDTH / 2 - self.player.WIDTH / 2,
@@ -31,21 +35,31 @@ class GameManager:
         self.bonus_spawn_timer += 1
         if self.enemy_spawn_timer >= self.enemy_spawn_delay:
             self.enemy_spawn_timer = 0
-            self.spawn_enemy()
+            count = 1
+            if self.level >= 5:
+                count = 2
+            if self.level >= 10:
+                count = 3
+            for _ in range(count):
+                self.spawn_enemy()
         if self.bonus_spawn_timer >= self.bonus_spawn_delay:
             self.bonus_spawn_timer = 0
             self.spawn_bonus()
 
     def tick(self, keys):
+        if self.state != GameState.PLAYING:
+            return
+        self.frames += 1
         self.player.tick(keys)
         if keys["shoot"] and self.player.can_shoot():
             self.shoot()
-        self.entities.tick()
         self.spawn_logic()
         self.check_collisions()
         self.check_bonus_collision()
+        self.check_game_over()
+        self.entities.tick()
         self.update_bonus_effects()
-        # self.update_difficulty()
+        self.update_difficulty()
 
     def shoot(self):
         bullet = Bullet()
@@ -112,3 +126,22 @@ class GameManager:
                 self.double_score = False
         if self.shield_timer > 0:
             self.shield_timer -= 1
+
+    def update_difficulty(self):
+        if self.frames % 900 == 0:
+            self.level += 1
+            if self.enemy_spawn_delay > 20:
+                self.enemy_spawn_delay -= 5
+            Enemy.SPEED += 1
+
+    def check_game_over(self):
+        if self.shield_timer > 0:
+            return
+        for enemy in self.entities.enemies:
+            if self.player.collidesWithItem(enemy):
+                self.game_over()
+                return
+            
+    def game_over(self):
+        print("GAME OVER")
+        self.state = GameState.GAME_OVER

@@ -6,6 +6,7 @@ from PyQt6.QtWidgets import (
     QVBoxLayout,
 )
 
+from core.game_state import GameState
 from game.game_scene import GameScene
 
 
@@ -89,6 +90,10 @@ class GameWindow(QWidget):
 
         if key in self.keys:
             self.keys[key] = True
+
+        if event.key() == Qt.Key.Key_R:
+            if self.scene.manager.state == GameState.GAME_OVER:
+                self.scene.restart()
 
     def keyReleaseEvent(self, event):
         key = event.key()

@@ -91,9 +91,22 @@ class GameWindow(QWidget):
         if key in self.keys:
             self.keys[key] = True
 
+        if event.key() == Qt.Key.Key_Escape:
+            self.scene.manager.pause()
+
+        if event.key() == Qt.Key.Key_C:
+            self.scene.manager.resume()
+
         if event.key() == Qt.Key.Key_R:
             if self.scene.manager.state == GameState.GAME_OVER:
                 self.scene.restart()
+
+        if event.key() == Qt.Key.Key_Q:
+            if self.scene.manager.state in (
+                GameState.PAUSED,
+                GameState.GAME_OVER
+            ):
+                self.close()
 
     def keyReleaseEvent(self, event):
         key = event.key()

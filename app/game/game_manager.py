@@ -148,3 +148,11 @@ class GameManager:
         print("GAME OVER")
         self.record = RecordManager.save_record(self.score)
         self.state = GameState.GAME_OVER
+
+    def pause(self):
+        if self.state == GameState.PLAYING:
+            self.state = GameState.PAUSED
+
+    def resume(self):   
+        if self.state == GameState.PAUSED:
+            self.state = GameState.PLAYING

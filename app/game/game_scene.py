@@ -49,7 +49,14 @@ class GameScene(QGraphicsScene):
         f"Double Score : {'ON' if self.manager.double_score else 'OFF'}\n"
         f"Shield : {'ON' if self.manager.shield_timer > 0 else 'OFF'}"
     )
-        if self.manager.state == GameState.GAME_OVER:
+        if self.manager.state == GameState.PAUSED:
+            self.info.setPlainText(
+                "PAUSE\n\n"
+                "C - Continue\n"
+                "Q - Quit"
+            )
+            return
+        elif self.manager.state == GameState.GAME_OVER:
             self.info.setPlainText(
                 f"GAME OVER\n\n"
                 f"Score : {self.manager.score}\n"

@@ -1,13 +1,12 @@
-from PyQt6.QtCore import QRectF
-from PyQt6.QtGui import QColor, QBrush, QPen
-
+from PyQt6.QtCore import QRectF, Qt
+from core.resource_manager import ResourceManager
 from core.game_object import GameObject
 
 
 class Player(GameObject):
-
-    WIDTH = 50
-    HEIGHT = 60
+    # orig 50x60
+    WIDTH = 100
+    HEIGHT = 75
 
     SPEED = 6
 
@@ -15,6 +14,13 @@ class Player(GameObject):
 
     def __init__(self, scene_width, scene_height):
         super().__init__()
+
+        self.sprite = ResourceManager.load_pixmap("ship.png").scaled(
+                self.WIDTH,
+                self.HEIGHT,
+                Qt.AspectRatioMode.KeepAspectRatio,
+                Qt.TransformationMode.SmoothTransformation
+            )
 
         self.scene_width = scene_width
         self.scene_height = scene_height
@@ -25,9 +31,10 @@ class Player(GameObject):
         return QRectF(0, 0, self.WIDTH, self.HEIGHT)
 
     def paint(self, painter, option, widget=None):
-        painter.setBrush(QBrush(QColor(0, 220, 255)))
-        painter.setPen(QPen(QColor("white"), 2))
-        painter.drawRoundedRect(0, 0, self.WIDTH, self.HEIGHT, 8, 8)
+        painter.drawPixmap(
+        self.boundingRect().toRect(),
+        self.sprite
+    )
 
     def tick(self, keys=None):
 

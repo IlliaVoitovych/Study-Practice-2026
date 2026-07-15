@@ -6,8 +6,8 @@ from effects.bonus_effect import BonusEffect
 class RapidFireBonus(BonusEffect):
 
     @property
-    def color(self):
-        return QColor("yellow")
+    def icon(self):
+        return "rapid_fire.png"
 
     @property
     def name(self):

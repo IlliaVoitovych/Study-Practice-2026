@@ -1,14 +1,13 @@
 import random
 
-from PyQt6.QtCore import QRectF
-from PyQt6.QtGui import QColor, QBrush, QPen
-
+from PyQt6.QtCore import QRectF, Qt
+from core.resource_manager import ResourceManager
 from core.game_object import GameObject
 
 
 class Enemy(GameObject):
 
-    SIZE = 40
+    SIZE = 45
     SPEED = 3
 
     def __init__(self, scene_width):
@@ -20,14 +19,24 @@ class Enemy(GameObject):
 
         self.setPos(x, -self.SIZE)
 
+        sprites = ["asteroid1.png", "asteroid2.png", "asteroid3.png", "asteroid4.png",]
+        self.sprite = ResourceManager.load_pixmap(
+            random.choice(sprites)
+        ).scaled(
+            self.SIZE,
+            self.SIZE,
+            Qt.AspectRatioMode.KeepAspectRatio,
+            Qt.TransformationMode.SmoothTransformation
+        )
+
     def boundingRect(self):
         return QRectF(0, 0, self.SIZE, self.SIZE)
 
     def paint(self, painter, option, widget=None):
-        painter.setBrush(QBrush(QColor(120, 120, 120)))
-        painter.setPen(QPen(QColor("white"), 2))
-
-        painter.drawEllipse(0, 0, self.SIZE, self.SIZE)
+        painter.drawPixmap(
+            self.boundingRect().toRect(),
+            self.sprite
+        )
 
     def tick(self):
         self.setY(self.y() + self.SPEED)

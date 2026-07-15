@@ -6,8 +6,8 @@ class BonusEffect(ABC):
 
     @property
     @abstractmethod
-    def color(self) -> QColor:
-        """Колір бонусу."""
+    def icon(self):
+        """Іконка бонусу."""
         pass
 
     @property

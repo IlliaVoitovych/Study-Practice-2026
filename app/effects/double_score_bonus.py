@@ -6,8 +6,8 @@ from effects.bonus_effect import BonusEffect
 class DoubleScoreBonus(BonusEffect):
 
     @property
-    def color(self):
-        return QColor("cyan")
+    def icon(self):
+        return "double_score.png"
 
     @property
     def name(self):

@@ -6,8 +6,8 @@ from effects.bonus_effect import BonusEffect
 class ShieldBonus(BonusEffect):
 
     @property
-    def color(self):
-        return QColor("magenta")
+    def icon(self):
+        return "shield.png"
 
     @property
     def name(self):

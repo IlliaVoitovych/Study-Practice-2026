@@ -133,8 +133,8 @@ class GameManager:
         if self.frames % 900 == 0:
             self.level += 1
             if self.enemy_spawn_delay > 20:
-                self.enemy_spawn_delay -= 5
-            Enemy.SPEED += 1
+                self.enemy_spawn_delay -= 2
+            Enemy.SPEED += 0.4
 
     def check_game_over(self):
         if self.shield_timer > 0:

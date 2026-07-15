@@ -6,6 +6,7 @@ from PyQt6.QtWidgets import (
 
 from game.game_manager import GameManager
 from core.game_state import GameState
+from core.resource_manager import ResourceManager
 
 
 class GameScene(QGraphicsScene):
@@ -18,7 +19,7 @@ class GameScene(QGraphicsScene):
         self.initialize()
 
         self.setSceneRect(0, 0, self.WIDTH, self.HEIGHT)
-        self.setBackgroundBrush(QBrush(QColor(10, 10, 30)))
+        self.setBackgroundBrush(QBrush(ResourceManager.load_pixmap("background.png")))
         self.score = 0
 
     def initialize(self):
@@ -43,8 +44,6 @@ class GameScene(QGraphicsScene):
         self.info.setPlainText(
         f"Score : {self.manager.score}\n"
         f"Record : {self.manager.record}\n"
-        f"Enemies : {len(self.manager.entities.enemies)}\n"
-        f"Bullets : {len(self.manager.entities.bullets)}\n"
         f"Rapid Fire : {'ON' if self.manager.rapid_fire_timer > 0 else 'OFF'}\n"
         f"Double Score : {'ON' if self.manager.double_score else 'OFF'}\n"
         f"Shield : {'ON' if self.manager.shield_timer > 0 else 'OFF'}"

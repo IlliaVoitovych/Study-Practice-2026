@@ -85,6 +85,7 @@ class GameWindow(QWidget):
 
         # Create graphics view to display the scene
         self.view = QGraphicsView(self.scene)
+        self.view.setFocusPolicy(Qt.FocusPolicy.NoFocus)
 
         # Enable antialiasing for smoother graphics
         self.view.setRenderHint(QPainter.RenderHint.Antialiasing)
